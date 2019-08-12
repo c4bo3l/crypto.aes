@@ -5,7 +5,7 @@ namespace Crypto.AES.UnitTests
     [TestClass]
     public class AESStringTests
     {
-        private string key = "ThisKeyMust16Ch";
+        private readonly string key = "ThisKeyMust16Ch";
 
         [TestMethod]
         public void Encryption()
@@ -21,7 +21,7 @@ namespace Crypto.AES.UnitTests
                 string toBeEncrypted = "test";
                 string encrypted = aes.Encrypt(toBeEncrypted);
                 string decrypted = aes.Decrypt(encrypted);
-                Assert.AreEqual<string>(toBeEncrypted, decrypted);
+                Assert.AreEqual(toBeEncrypted, decrypted);
             }
         }
     }

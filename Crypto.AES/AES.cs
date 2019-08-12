@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Text;
 using System.IO;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Crypto.AES
 {
-    public class AES: IDisposable, ICrypto
+    public class AES : IDisposable, ICrypto
     {
         #region Properties
         private byte[] _Key;
@@ -27,32 +27,36 @@ namespace Crypto.AES
         {
             if (input == null || input.Length <= 0)
                 throw new ArgumentNullException("No input");
-            try {
-                using (Encryption encryption = new Encryption(_Key, _Keys, _Nr, input)) {
+            try
+            {
+                using (Encryption encryption = new Encryption(_Key, _Keys, _Nr, input))
+                {
                     byte[] encrypted = encryption.Process();
-                    return encrypted == null || encrypted.Length <= 0 ? null : 
+                    return encrypted == null || encrypted.Length <= 0 ? null :
                         encrypted.Where(e => e > 0).ToArray();
                 }
             }
             catch (Exception) { throw; }
         }
 
-        public string Encrypt(string input) {
+        public string Encrypt(string input)
+        {
             if (string.IsNullOrEmpty(input))
                 throw new ArgumentNullException("No input");
             return Convert.ToBase64String(Encrypt(Encoding.ASCII.GetBytes(input)));
         }
 
-        public async Task<FileInfo> Encrypt(string sourceFilePath, string targetFilePath) {
+        public async Task<FileInfo> Encrypt(string sourceFilePath, string targetFilePath)
+        {
             if (string.IsNullOrEmpty(sourceFilePath))
                 throw new ArgumentNullException("Source path is invalid");
 
-            if(string.IsNullOrEmpty(targetFilePath))
+            if (string.IsNullOrEmpty(targetFilePath))
                 throw new ArgumentNullException("Target path is invalid");
 
             if (!File.Exists(sourceFilePath))
                 throw new FileNotFoundException();
-            
+
             byte[] Input = File.ReadAllBytes(sourceFilePath);
             if (Input == null || Input.Length <= 0)
                 throw new FileLoadException();
@@ -70,7 +74,6 @@ namespace Crypto.AES
             {
                 if (Output.Exists)
                     Output.Delete();
-                Output = null;
                 throw;
             }
 
@@ -88,14 +91,15 @@ namespace Crypto.AES
                 using (Decryption decryption = new Decryption(_Key, _Keys, _Nr, input))
                 {
                     byte[] decrypted = decryption.Process();
-                    return decrypted == null || decrypted.Length <= 0 ? null : 
+                    return decrypted == null || decrypted.Length <= 0 ? null :
                         decrypted.Where(d => d > 0).ToArray();
                 }
             }
             catch (Exception) { throw; }
         }
 
-        private string RemoveNullString(string str) {
+        private string RemoveNullString(string str)
+        {
             return str.Replace("\0", "");
         }
 
@@ -117,7 +121,7 @@ namespace Crypto.AES
 
             if (!File.Exists(sourceFilePath))
                 throw new FileNotFoundException();
-            
+
             byte[] Input = File.ReadAllBytes(sourceFilePath);
             if (Input == null || Input.Length <= 0)
                 throw new FileLoadException();
@@ -136,7 +140,6 @@ namespace Crypto.AES
             {
                 if (Output.Exists)
                     Output.Delete();
-                Output = null;
                 throw;
             }
             return Output;

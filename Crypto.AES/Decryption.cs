@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Crypto.AES
 {
-    internal class Decryption:IDisposable
+    internal class Decryption : IDisposable
     {
         private byte[] _Key;
         private byte[] _Keys;
@@ -35,8 +32,8 @@ namespace Crypto.AES
         {
             byte[] BlockIn = new byte[Common.maxKeyLength];
             byte[] BlockOut = new byte[Common.maxKeyLength];
-            byte[] Output = new byte[_Input.Length + 
-                ((_Input.Length % Common.maxKeyLength) == 0 ? 0 : 
+            byte[] Output = new byte[_Input.Length +
+                ((_Input.Length % Common.maxKeyLength) == 0 ? 0 :
                 (Common.maxKeyLength - (_Input.Length % Common.maxKeyLength)))];
             int Temp = _Input.Length / Common.maxKeyLength;
             for (int i = 0; i < Temp; i++)
@@ -51,7 +48,7 @@ namespace Crypto.AES
                 BlockIn = new byte[Common.maxKeyLength];
                 Array.Copy(_Input, _Input.Length - lastByte, BlockIn, 0, lastByte);
                 BlockOut = DecryptingLoop(BlockIn);
-                Array.Copy(BlockOut, 0, Output, 
+                Array.Copy(BlockOut, 0, Output,
                     Output.Length - Common.maxKeyLength, Common.maxKeyLength);
             }
             return Output;
@@ -59,17 +56,17 @@ namespace Crypto.AES
 
         private byte[] DecryptingLoop(byte[] block)
         {
-            Common.AddRoundKey(block,_Keys, _Nr);
+            Common.AddRoundKey(block, _Keys, _Nr);
             for (int i = _Nr - 1; i > 0; i--)
             {
                 InverseShiftRows(block);
                 InverseSubBytes(block);
-                Common.AddRoundKey(block,_Keys, i);
+                Common.AddRoundKey(block, _Keys, i);
                 InverseMixColumns(block);
             }
             InverseShiftRows(block);
             InverseSubBytes(block);
-            Common.AddRoundKey(block,_Keys, 0);
+            Common.AddRoundKey(block, _Keys, 0);
             return block;
         }
 
@@ -103,21 +100,21 @@ namespace Crypto.AES
             }
             for (int i = 0; i < 4; i++)
             {
-                block[00 + i] = (byte)(Math.PeasantMultiplication.Calculate(14, t[0, i]) ^ 
-                    Math.PeasantMultiplication.Calculate(11, t[1, i]) ^ 
-                    Math.PeasantMultiplication.Calculate(13, t[2, i]) ^ 
+                block[00 + i] = (byte)(Math.PeasantMultiplication.Calculate(14, t[0, i]) ^
+                    Math.PeasantMultiplication.Calculate(11, t[1, i]) ^
+                    Math.PeasantMultiplication.Calculate(13, t[2, i]) ^
                     Math.PeasantMultiplication.Calculate(9, t[3, i]));
-                block[04 + i] = (byte)(Math.PeasantMultiplication.Calculate(9, t[0, i]) ^ 
-                    Math.PeasantMultiplication.Calculate(14, t[1, i]) ^ 
-                    Math.PeasantMultiplication.Calculate(11, t[2, i]) ^ 
+                block[04 + i] = (byte)(Math.PeasantMultiplication.Calculate(9, t[0, i]) ^
+                    Math.PeasantMultiplication.Calculate(14, t[1, i]) ^
+                    Math.PeasantMultiplication.Calculate(11, t[2, i]) ^
                     Math.PeasantMultiplication.Calculate(13, t[3, i]));
-                block[08 + i] = (byte)(Math.PeasantMultiplication.Calculate(13, t[0, i]) ^ 
-                    Math.PeasantMultiplication.Calculate(9, t[1, i]) ^ 
-                    Math.PeasantMultiplication.Calculate(14, t[2, i]) ^ 
+                block[08 + i] = (byte)(Math.PeasantMultiplication.Calculate(13, t[0, i]) ^
+                    Math.PeasantMultiplication.Calculate(9, t[1, i]) ^
+                    Math.PeasantMultiplication.Calculate(14, t[2, i]) ^
                     Math.PeasantMultiplication.Calculate(11, t[3, i]));
-                block[12 + i] = (byte)(Math.PeasantMultiplication.Calculate(11, t[0, i]) ^ 
-                    Math.PeasantMultiplication.Calculate(13, t[1, i]) ^ 
-                    Math.PeasantMultiplication.Calculate(9, t[2, i]) ^ 
+                block[12 + i] = (byte)(Math.PeasantMultiplication.Calculate(11, t[0, i]) ^
+                    Math.PeasantMultiplication.Calculate(13, t[1, i]) ^
+                    Math.PeasantMultiplication.Calculate(9, t[2, i]) ^
                     Math.PeasantMultiplication.Calculate(14, t[3, i]));
             }
         }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Crypto.AES
+﻿namespace Crypto.AES
 {
     public interface ICrypto
     {

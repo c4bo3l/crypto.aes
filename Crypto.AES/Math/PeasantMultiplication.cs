@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Crypto.AES.Math
+﻿namespace Crypto.AES.Math
 {
     public class PeasantMultiplication
     {
-        public static int Calculate(int a, int b) {
+        public static int Calculate(int a, int b)
+        {
             int aa = a, bb = b, r = 0, t;
             while (aa != 0)
             {

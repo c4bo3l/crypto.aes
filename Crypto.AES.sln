@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crypto.AES", "Crypto.AES\Crypto.AES.csproj", "{E9C465F2-78E9-4B2B-B30B-848FC1B6230D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crypto.AES.UnitTests", "Crypto.AES.UnitTests\Crypto.AES.UnitTests.csproj", "{E98AF967-F67F-43DF-8570-AC1B09971B3C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E9C465F2-78E9-4B2B-B30B-848FC1B6230D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9C465F2-78E9-4B2B-B30B-848FC1B6230D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9C465F2-78E9-4B2B-B30B-848FC1B6230D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9C465F2-78E9-4B2B-B30B-848FC1B6230D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E98AF967-F67F-43DF-8570-AC1B09971B3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E98AF967-F67F-43DF-8570-AC1B09971B3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E98AF967-F67F-43DF-8570-AC1B09971B3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E98AF967-F67F-43DF-8570-AC1B09971B3C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {61669604-54A7-41AF-8F48-750E6E91BA3E}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://bullz.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Crypto.AES.UnitTests\\Crypto.AES.UnitTests.csproj
+		SccProjectName1 = Crypto.AES.UnitTests
+		SccLocalPath1 = Crypto.AES.UnitTests
+		SccProjectUniqueName2 = Crypto.AES\\Crypto.AES.csproj
+		SccProjectName2 = Crypto.AES
+		SccLocalPath2 = Crypto.AES
+	EndGlobalSection
+EndGlobal

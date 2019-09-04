@@ -1,11 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crypto.AES", "Crypto.AES\Crypto.AES.csproj", "{E9C465F2-78E9-4B2B-B30B-848FC1B6230D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypto.AES", "Crypto.AES\Crypto.AES.csproj", "{E9C465F2-78E9-4B2B-B30B-848FC1B6230D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crypto.AES.UnitTests", "Crypto.AES.UnitTests\Crypto.AES.UnitTests.csproj", "{E98AF967-F67F-43DF-8570-AC1B09971B3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypto.AES.UnitTests", "Crypto.AES.UnitTests\Crypto.AES.UnitTests.csproj", "{E98AF967-F67F-43DF-8570-AC1B09971B3C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{ADFE0F65-A22E-42D2-831C-5E449E6E3908}"
+	ProjectSection(SolutionItems) = preProject
+		Readme.md = Readme.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,17 +32,5 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {61669604-54A7-41AF-8F48-750E6E91BA3E}
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 3
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://bullz.visualstudio.com/
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Crypto.AES.UnitTests\\Crypto.AES.UnitTests.csproj
-		SccProjectName1 = Crypto.AES.UnitTests
-		SccLocalPath1 = Crypto.AES.UnitTests
-		SccProjectUniqueName2 = Crypto.AES\\Crypto.AES.csproj
-		SccProjectName2 = Crypto.AES
-		SccLocalPath2 = Crypto.AES
 	EndGlobalSection
 EndGlobal

@@ -11,11 +11,20 @@ namespace Crypto.AES
 
         public Encryption(byte[] key, byte[] keys, int nr, byte[] input) {
             if (key == null)
-                throw new ArgumentNullException("Key is null");
+            {
+                throw new ArgumentException("Key is null", nameof(key));
+            }
+
             if (keys == null)
-                throw new ArgumentNullException("Keys is null");
+            {
+                throw new ArgumentException("Keys is null", nameof(keys));
+            }
+
             if (input == null)
-                throw new ArgumentNullException("No Input");
+            {
+                throw new ArgumentException("No Input", nameof(input));
+            }
+
             _Key = new byte[key.Length];
             key.CopyTo(_Key, 0);
 
@@ -30,7 +39,7 @@ namespace Crypto.AES
         public byte[] Process()
         {
             byte[] BlockIn = new byte[Common.maxKeyLength];
-            byte[] BlockOut = new byte[Common.maxKeyLength];
+            byte[] BlockOut;
             byte[] Output = new byte[_Input.Length + 
                 ((_Input.Length % Common.maxKeyLength) == 0 ? 0 : 
                 (Common.maxKeyLength - (_Input.Length % Common.maxKeyLength)))];

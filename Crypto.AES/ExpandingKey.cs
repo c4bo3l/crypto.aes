@@ -12,10 +12,9 @@ namespace Crypto.AES
                 key = key.Substring(0, Common.maxKeyLength);
             else if (key.Length < Common.maxKeyLength)
             {
-                int index = 0;
                 while (key.Length < Common.maxKeyLength) {
-                    key += key[index].ToString();
-                    index++;
+                    int strLength = Common.maxKeyLength - key.Length;
+                    key += key.Substring(0, strLength > key.Length ? key.Length : strLength);
                 }
             }
             return key;

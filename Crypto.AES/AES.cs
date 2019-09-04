@@ -17,49 +17,48 @@ namespace Crypto.AES
         public AES(string securityKey)
         {
             if (string.IsNullOrEmpty(securityKey))
-                throw new ArgumentNullException("No security key defined");
+            {
+                throw new ArgumentException("No security key defined", nameof(securityKey));
+            }
 
             ExpandingKey.Process(securityKey, out _Nr, out _Key, out _Keys);
         }
 
         #region Encrypt
-        public byte[] Encrypt(byte[] input)
+        public byte[] Encrypt(byte[] byteInput)
         {
-            if (input == null || input.Length <= 0)
-                throw new ArgumentNullException("No input");
+            if (byteInput == null || byteInput.Length <= 0)
+            {
+                throw new ArgumentException("No input", nameof(byteInput));
+            }
+
             try
             {
-                using (Encryption encryption = new Encryption(_Key, _Keys, _Nr, input))
+                using (Encryption encryption = new Encryption(_Key, _Keys, _Nr, byteInput))
                 {
                     byte[] encrypted = encryption.Process();
                     return encrypted == null || encrypted.Length <= 0 ? null :
                         encrypted.Where(e => e > 0).ToArray();
                 }
             }
-            catch (Exception) { throw; }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
-        public string Encrypt(string input)
+        public string Encrypt(string stringInput)
         {
-            if (string.IsNullOrEmpty(input))
-                throw new ArgumentNullException("No input");
-            return Convert.ToBase64String(Encrypt(Encoding.ASCII.GetBytes(input)));
+            if (string.IsNullOrEmpty(stringInput))
+            {
+                throw new ArgumentException("No input", nameof(stringInput));
+            }
+            return Convert.ToBase64String(Encrypt(Encoding.ASCII.GetBytes(stringInput)));
         }
 
-        public async Task<FileInfo> Encrypt(string sourceFilePath, string targetFilePath)
+        public FileInfo Encrypt(string sourceFilePath, string targetFilePath)
         {
-            if (string.IsNullOrEmpty(sourceFilePath))
-                throw new ArgumentNullException("Source path is invalid");
-
-            if (string.IsNullOrEmpty(targetFilePath))
-                throw new ArgumentNullException("Target path is invalid");
-
-            if (!File.Exists(sourceFilePath))
-                throw new FileNotFoundException();
-
-            byte[] Input = File.ReadAllBytes(sourceFilePath);
-            if (Input == null || Input.Length <= 0)
-                throw new FileLoadException();
+            byte[] Input = GetFileBytes(sourceFilePath, targetFilePath);
 
             FileInfo Output = new FileInfo(targetFilePath);
             try
@@ -67,35 +66,67 @@ namespace Crypto.AES
                 using (FileStream Stream = Output.OpenWrite())
                 {
                     byte[] encryptedInput = Encrypt(Input);
-                    await Stream.WriteAsync(encryptedInput, 0, encryptedInput.Length);
+                    Stream.WriteAsync(encryptedInput, 0, encryptedInput.Length).GetAwaiter().GetResult();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 if (Output.Exists)
                     Output.Delete();
-                throw;
+                throw ex;
             }
 
             return Output;
         }
         #endregion
 
-        #region Decrypt
-        public byte[] Decrypt(byte[] input)
+        private byte[] GetFileBytes(string sourceFilePath, string targetFilePath)
         {
-            if (input == null || input.Length <= 0)
-                throw new ArgumentNullException("No input");
+            if (string.IsNullOrEmpty(sourceFilePath))
+            {
+                throw new ArgumentException("Source path is invalid", nameof(sourceFilePath));
+            }
+
+            if (string.IsNullOrEmpty(targetFilePath))
+            {
+                throw new ArgumentException("Target path is invalid", nameof(targetFilePath));
+            }
+
+            if (!File.Exists(sourceFilePath))
+            {
+                throw new FileNotFoundException("Source file was not found.");
+            }
+
+            byte[] fileBytes = File.ReadAllBytes(sourceFilePath);
+            if (fileBytes == null || fileBytes.Length <= 0)
+            {
+                throw new FileLoadException("Unable to process empty file.");
+            }
+
+            return fileBytes;
+        }
+
+        #region Decrypt
+        public byte[] Decrypt(byte[] byteInput)
+        {
+            if (byteInput == null || byteInput.Length <= 0)
+            {
+                throw new ArgumentException("No input", nameof(byteInput));
+            }
+
             try
             {
-                using (Decryption decryption = new Decryption(_Key, _Keys, _Nr, input))
+                using (Decryption decryption = new Decryption(_Key, _Keys, _Nr, byteInput))
                 {
                     byte[] decrypted = decryption.Process();
                     return decrypted == null || decrypted.Length <= 0 ? null :
                         decrypted.Where(d => d > 0).ToArray();
                 }
             }
-            catch (Exception) { throw; }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private string RemoveNullString(string str)
@@ -103,28 +134,20 @@ namespace Crypto.AES
             return str.Replace("\0", "");
         }
 
-        public string Decrypt(string input)
+        public string Decrypt(string stringInput)
         {
-            if (string.IsNullOrEmpty(input))
-                throw new ArgumentNullException("No input");
+            if (string.IsNullOrEmpty(stringInput))
+            {
+                throw new ArgumentException("No input", nameof(stringInput));
+            }
+
             return RemoveNullString(Encoding.ASCII
-                .GetString(Decrypt(Convert.FromBase64String(input))));
+                .GetString(Decrypt(Convert.FromBase64String(stringInput))));
         }
 
-        public async Task<FileInfo> Decrypt(string sourceFilePath, string targetFilePath)
+        public FileInfo Decrypt(string sourceFilePath, string targetFilePath)
         {
-            if (string.IsNullOrEmpty(sourceFilePath))
-                throw new ArgumentNullException("Source path is invalid");
-
-            if (string.IsNullOrEmpty(targetFilePath))
-                throw new ArgumentNullException("Target path is invalid");
-
-            if (!File.Exists(sourceFilePath))
-                throw new FileNotFoundException();
-
-            byte[] Input = File.ReadAllBytes(sourceFilePath);
-            if (Input == null || Input.Length <= 0)
-                throw new FileLoadException();
+            byte[] Input = GetFileBytes(sourceFilePath, targetFilePath);
 
             FileInfo Output = new FileInfo(targetFilePath);
             try
@@ -132,15 +155,15 @@ namespace Crypto.AES
                 using (FileStream Stream = Output.OpenWrite())
                 {
                     byte[] decryptedInput = Decrypt(Input);
-                    await Stream.WriteAsync(decryptedInput, 0, decryptedInput.Length);
+                    Stream.WriteAsync(decryptedInput, 0, decryptedInput.Length).GetAwaiter().GetResult();
                     Stream.SetLength(decryptedInput.Length);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 if (Output.Exists)
                     Output.Delete();
-                throw;
+                throw ex;
             }
             return Output;
         }

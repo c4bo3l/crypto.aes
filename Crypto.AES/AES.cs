@@ -58,7 +58,7 @@ namespace Crypto.AES
 
         public FileInfo Encrypt(string sourceFilePath, string targetFilePath)
         {
-            if (string.IsNullOrEmpty(targetFilePath))
+            if (string.IsNullOrEmpty(targetFilePath?.Trim()))
             {
                 throw new ArgumentException("Target path is invalid", nameof(targetFilePath));
             }
@@ -87,7 +87,7 @@ namespace Crypto.AES
 
         private byte[] GetFileBytes(string sourceFilePath)
         {
-            if (string.IsNullOrEmpty(sourceFilePath))
+            if (string.IsNullOrEmpty(sourceFilePath?.Trim()))
             {
                 throw new ArgumentException("Source path is invalid", nameof(sourceFilePath));
             }
@@ -147,7 +147,7 @@ namespace Crypto.AES
 
         public FileInfo Decrypt(string sourceFilePath, string targetFilePath)
         {
-            if (string.IsNullOrEmpty(targetFilePath))
+            if (string.IsNullOrEmpty(targetFilePath?.Trim()))
             {
                 throw new ArgumentException("Target path is invalid", nameof(targetFilePath));
             }

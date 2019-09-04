@@ -1,3 +1,4 @@
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Crypto.AES.UnitTests
@@ -7,6 +8,21 @@ namespace Crypto.AES.UnitTests
     {
         private readonly string key = "ThisKeyMust16Ch";
         private readonly string shortKey = "SHortKEy";
+
+        [TestMethod]
+        public void EmptyString()
+        {
+            using (AES aes = new AES(key))
+            {
+                Assert.ThrowsException<ArgumentException>(() => aes.Encrypt(stringInput: null));
+                Assert.ThrowsException<ArgumentException>(() => aes.Encrypt(stringInput: ""));
+                Assert.ThrowsException<ArgumentException>(() => aes.Encrypt(stringInput: " "));
+
+                Assert.ThrowsException<ArgumentException>(() => aes.Decrypt(stringInput: null));
+                Assert.ThrowsException<ArgumentException>(() => aes.Decrypt(stringInput: ""));
+                Assert.ThrowsException<ArgumentException>(() => aes.Decrypt(stringInput: " "));
+            }
+        }
 
         [TestMethod]
         public void Encryption()

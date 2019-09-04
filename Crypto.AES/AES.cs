@@ -49,7 +49,7 @@ namespace Crypto.AES
 
         public string Encrypt(string stringInput)
         {
-            if (string.IsNullOrEmpty(stringInput))
+            if (string.IsNullOrEmpty(stringInput?.Trim()))
             {
                 throw new ArgumentException("No input", nameof(stringInput));
             }
@@ -136,7 +136,7 @@ namespace Crypto.AES
 
         public string Decrypt(string stringInput)
         {
-            if (string.IsNullOrEmpty(stringInput))
+            if (string.IsNullOrEmpty(stringInput?.Trim()))
             {
                 throw new ArgumentException("No input", nameof(stringInput));
             }

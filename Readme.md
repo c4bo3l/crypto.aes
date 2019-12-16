@@ -1,3 +1,5 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 # Introduction
 
 Crypto.AES is a .Net library that implement AES-256 encryption. Because it's been created as .Net Standard 2.0 library, it should be able to use on both .Net Framework and .Net Core projects. For more information please read about [.Net Standard compatibility](https://docs.microsoft.com/en-us/dotnet/standard/net-standard).

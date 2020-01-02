@@ -39,6 +39,12 @@ namespace Crypto.AES.UnitTests
         }
 
         [TestMethod]
+        public void StaticEncryptionWithShortKey()
+        {
+            Assert.IsFalse(string.IsNullOrEmpty(AES.EncryptString(shortKey, "asd")));
+        }
+
+        [TestMethod]
         public void Decryption() {
             using (AES aes = new AES(key))
             {
@@ -59,6 +65,15 @@ namespace Crypto.AES.UnitTests
                 string decrypted = aes.Decrypt(encrypted);
                 Assert.AreEqual(toBeEncrypted, decrypted);
             }
+        }
+
+        [TestMethod]
+        public void StaticDecryptionWithShortKey()
+        {
+            string toBeEncrypted = "test";
+            string encrypted = AES.EncryptString(shortKey, toBeEncrypted);
+            string decrypted = AES.DecryptString(shortKey, encrypted);
+            Assert.AreEqual(toBeEncrypted, decrypted);
         }
     }
 }

@@ -12,6 +12,8 @@ What can be processed?
  - Array of bytes
 
 # How to use
+#### Install with Nuget
+    Install-Package Crypto.AES -Version 1.0.3
 #### Import the namespace
 	using Crypto.AES;
 #### String encryption
@@ -21,6 +23,13 @@ What can be processed?
 	    string encrypted = aes.Encrypt(toBeEncrypted);
 	    Console.WriteLine(encrypted);
     }
+
+    // OR
+
+    string toBeEncrypted = "Hello"; 
+	string encrypted = AES.EncryptString("SHortKEy", toBeEncrypted);
+	Console.WriteLine(encrypted);
+
     // Output: yGYBZQStb1OJnQn0f5Bvwg==
 #### String decryption
 	using(AES aes = new AES("SHortKEy"))
@@ -29,6 +38,13 @@ What can be processed?
 	    string decrypted = aes.Decrypt(toBeDecrypted);
 	    Console.WriteLine(decrypted);
     }
+
+    // OR
+
+    string toBeDecrypted = "yGYBZQStb1OJnQn0f5Bvwg=="; 
+	string decrypted = AES.DecryptString("SHortKEy", toBeDecrypted);
+	Console.WriteLine(decrypted);
+
     // Output: Hello
 #### File encryption
 It can be used to encrypt any file. Below is an example to encrypt a text file.
@@ -37,12 +53,22 @@ It can be used to encrypt any file. Below is an example to encrypt a text file.
     { 
 	    FileInfo encryptedFile = aes.Encrypt("./ToBeEncryptedFile.txt", "./encryptedFile");
     }
+
+    // OR
+
+    FileInfo encryptedFile = AES.EncryptFile("SHortKEy", "./ToBeEncryptedFile.txt", "./encryptedFile");
+
     // The "encryptedFile" file won't be able to be read as text file.
 #### File decryption
 	using(AES aes = new AES("SHortKEy"))
     { 
 	    FileInfo decryptedFile = aes.Decrypt("./encryptedFile", "./decryptedFile.txt");
     }
+
+    // OR
+
+	FileInfo decryptedFile = AES.DecryptFile("SHortKEy", "./encryptedFile", "./decryptedFile.txt");
+
     // The "decryptedFile.txt" file will contain decrypted text.
 
 ## Contact

@@ -46,7 +46,7 @@ namespace Crypto.AES.UnitTests
         }
 
         [TestMethod]
-        public async Task EncryptionAsync()
+        public async Task FileEncryption()
         {
             using (AES aes = new AES(key))
             {
@@ -63,7 +63,21 @@ namespace Crypto.AES.UnitTests
         }
 
         [TestMethod]
-        public async Task EncryptionWithShortKeyAsync()
+        public async Task StaticEncryptionFile()
+        {
+            if (File.Exists(sourceFile))
+                File.Delete(sourceFile);
+            File.WriteAllText(sourceFile, content);
+
+            FileInfo encryptedFile = AES.EncryptFile(key, sourceFile, targetEncryptedFile);
+            Assert.IsNotNull(encryptedFile);
+            Assert.IsTrue(File.Exists(targetEncryptedFile));
+            Assert.AreNotEqual
+                (await File.ReadAllTextAsync(targetEncryptedFile), content);
+        }
+
+        [TestMethod]
+        public async Task EncryptionFileWithShortKey()
         {
             using (AES aes = new AES(shortKey))
             {
@@ -80,7 +94,21 @@ namespace Crypto.AES.UnitTests
         }
 
         [TestMethod]
-        public async Task DecryptionAsync()
+        public async Task StaticEncryptionFileWithShortKey()
+        {
+            if (File.Exists(sourceFile))
+                File.Delete(sourceFile);
+            File.WriteAllText(sourceFile, content);
+
+            FileInfo encryptedFile = AES.EncryptFile(shortKey, sourceFile, targetEncryptedFile);
+            Assert.IsNotNull(encryptedFile);
+            Assert.IsTrue(File.Exists(targetEncryptedFile));
+            Assert.AreNotEqual
+                (await File.ReadAllTextAsync(targetEncryptedFile), content);
+        }
+
+        [TestMethod]
+        public async Task DecryptionFile()
         {
             using (AES aes = new AES(key))
             {
@@ -101,7 +129,25 @@ namespace Crypto.AES.UnitTests
         }
 
         [TestMethod]
-        public async Task DecryptionWithShortKeyAsync()
+        public async Task StaticDecryptionFile()
+        {
+            if (File.Exists(sourceFile))
+                File.Delete(sourceFile);
+            File.WriteAllText(sourceFile, content);
+
+            FileInfo encryptedFile = AES.EncryptFile(key, sourceFile, targetEncryptedFile);
+            Assert.IsNotNull(encryptedFile);
+            Assert.IsTrue(File.Exists(targetEncryptedFile));
+
+            FileInfo decryptedFile = AES.DecryptFile(key, targetEncryptedFile, targetDecryptedFile);
+            Assert.IsNotNull(decryptedFile);
+            Assert.IsTrue(File.Exists(targetDecryptedFile));
+            Assert.AreEqual
+                (content, await File.ReadAllTextAsync(targetDecryptedFile));
+        }
+
+        [TestMethod]
+        public async Task DecryptionFileWithShortKey()
         {
             using (AES aes = new AES(shortKey))
             {
@@ -119,6 +165,24 @@ namespace Crypto.AES.UnitTests
                 Assert.AreEqual
                     (content, await File.ReadAllTextAsync(targetDecryptedFile));
             }
+        }
+
+        [TestMethod]
+        public async Task StaticDecryptionFileWithShortKey()
+        {
+            if (File.Exists(sourceFile))
+                File.Delete(sourceFile);
+            File.WriteAllText(sourceFile, content);
+
+            FileInfo encryptedFile = AES.EncryptFile(shortKey, sourceFile, targetEncryptedFile);
+            Assert.IsNotNull(encryptedFile);
+            Assert.IsTrue(File.Exists(targetEncryptedFile));
+
+            FileInfo decryptedFile = AES.DecryptFile(shortKey, targetEncryptedFile, targetDecryptedFile);
+            Assert.IsNotNull(decryptedFile);
+            Assert.IsTrue(File.Exists(targetDecryptedFile));
+            Assert.AreEqual
+                (content, await File.ReadAllTextAsync(targetDecryptedFile));
         }
 
         [TestCleanup]

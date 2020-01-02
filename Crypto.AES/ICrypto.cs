@@ -1,15 +1,15 @@
-﻿using System.IO;
-using System.Threading.Tasks;
+﻿using System;
+using System.IO;
 
 namespace Crypto.AES
 {
-    public interface ICrypto
+    public interface ICrypto : IDisposable
     {
-        byte[] Encrypt(byte[] input);
-        byte[] Decrypt(byte[] input);
+        byte[] Encrypt(byte[] byteInput);
+        byte[] Decrypt(byte[] byteInput);
 
-        string Encrypt(string input);
-        string Decrypt(string input);
+        string Encrypt(string stringInput);
+        string Decrypt(string stringInput);
 
         FileInfo Encrypt(string sourceFilePath, string targetFilePath);
         FileInfo Decrypt(string sourceFilePath, string targetFilePath);

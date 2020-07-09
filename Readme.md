@@ -14,7 +14,7 @@ What can be processed?
 
 # How to use
 #### Install with Nuget
-    Install-Package Crypto.AES -Version 1.0.3
+    Install-Package Crypto.AES -Version 1.0.4
 #### Install with dotnet CLI
     dotnet add package Crypto.AES
 #### Import the namespace

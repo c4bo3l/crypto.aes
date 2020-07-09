@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Crypto.AES.UnitTests
@@ -74,6 +75,41 @@ namespace Crypto.AES.UnitTests
             string encrypted = AES.EncryptString(shortKey, toBeEncrypted);
             string decrypted = AES.DecryptString(shortKey, encrypted);
             Assert.AreEqual(toBeEncrypted, decrypted);
+        }
+
+        [TestMethod]
+        public void RandomKeyLength()
+        {
+            string longKey = "ThisIsALongKeyIsntIt";
+
+            for (int i = 0; i < 100; i++)
+            {
+                string textToEncrypt = RandomString(64);
+                for (int j = 1; j < 18; j++)
+                {
+                    string key = longKey.Substring(0, j);
+                    using (AES aes = new AES(key))
+                    {
+                        string encrypted = aes.Encrypt(textToEncrypt);
+                        string decrypted = aes.Decrypt(encrypted);
+
+                        if (textToEncrypt != decrypted)
+                        {
+                            Assert.Fail();
+                        }
+
+                        Assert.AreEqual(textToEncrypt, decrypted);
+                    }
+                }
+            }
+        }
+
+        private string RandomString(int length)
+        {
+            Random random = new Random();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }

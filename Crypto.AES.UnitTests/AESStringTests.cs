@@ -78,25 +78,25 @@ namespace Crypto.AES.UnitTests
         }
 
         [TestMethod]
-        public void RandomKeyLength()
+        /*
+         Github issue #7 
+         Description: Decryption fails randomly dependant on key length
+         Issuer: Stereocheck
+        */
+        public void GithubIssue7()
         {
             string longKey = "ThisIsALongKeyIsntIt";
-
-            for (int i = 0; i < 100; i++)
+            int repetition = 100;
+            for (int i = 0; i < repetition; i++)
             {
                 string textToEncrypt = RandomString(64);
-                for (int j = 1; j < 18; j++)
+                for (int j = 1; j < longKey.Length; j++)
                 {
                     string key = longKey.Substring(0, j);
                     using (AES aes = new AES(key))
                     {
                         string encrypted = aes.Encrypt(textToEncrypt);
                         string decrypted = aes.Decrypt(encrypted);
-
-                        if (textToEncrypt != decrypted)
-                        {
-                            Assert.Fail();
-                        }
 
                         Assert.AreEqual(textToEncrypt, decrypted);
                     }

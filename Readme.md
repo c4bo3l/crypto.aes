@@ -1,3 +1,4 @@
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # Introduction
@@ -14,6 +15,8 @@ What can be processed?
 # How to use
 #### Install with Nuget
     Install-Package Crypto.AES -Version 1.0.3
+#### Install with dotnet CLI
+    dotnet add package Crypto.AES
 #### Import the namespace
 	using Crypto.AES;
 #### String encryption

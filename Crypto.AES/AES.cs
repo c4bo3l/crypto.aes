@@ -48,9 +48,7 @@ namespace Crypto.AES
             {
                 using (Encryption encryption = new Encryption(_Key, _Keys, _Nr, byteInput))
                 {
-                    byte[] encrypted = encryption.Process();
-                    return encrypted == null || encrypted.Length <= 0 ? null :
-                        encrypted.Where(e => e > 0).ToArray();
+                    return encryption.Process();
                 }
             }
             catch (Exception ex)
